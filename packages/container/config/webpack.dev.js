@@ -1,5 +1,4 @@
 const { merge } = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const commonConfig = require("./webpack.common");
 const packageJson = require("../package.json");
@@ -11,21 +10,18 @@ const devConfig = {
     historyApiFallback: true,
   },
   plugins: [
-      new ModuleFederationPlugin({
-          name: "container",
-          remotes:{
-              marketing: "marketing@http://localhost:8081/remoteEntry.js"
-          },
-          /**
-           * projeler arası ortal kullanılan bağımlılıkları tek tek ekleyerek kontrol etmek istemessek
-           * package.json fileın dependency objesini direk ekleyebiliriz. shared bir array bekliyor gibi görünse de 
-           * object i de kabul edecektir
-           */
-          //shared: ["react", "react-dom"]
-          shared: packageJson.dependencies
-      }),
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
+    new ModuleFederationPlugin({
+      name: "container",
+      remotes: {
+        marketing: "marketing@http://localhost:8081/remoteEntry.js",
+      },
+      /**
+       * projeler arası ortal kullanılan bağımlılıkları tek tek ekleyerek kontrol etmek istemessek
+       * package.json fileın dependency objesini direk ekleyebiliriz. shared bir array bekliyor gibi görünse de
+       * object i de kabul edecektir
+       */
+      //shared: ["react", "react-dom"]
+      shared: packageJson.dependencies,
     }),
   ],
 };

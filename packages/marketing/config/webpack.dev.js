@@ -18,6 +18,7 @@ const devConfig = {
       name: "marketing",
       /**
        * Host proje webpack.config.js remotes objesi içinde bu dosyayı işaret eden itemın value değeri olarak porttan sonra kullanılan parçasıdır.
+       * Kodların nasıl yükleneceğinin talimatlarını içeririr
        */
       filename: "remoteEntry.js",
       exposes: {

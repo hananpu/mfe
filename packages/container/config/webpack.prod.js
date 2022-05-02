@@ -32,7 +32,7 @@ const prodConfig = {
          * remoteEntry.js dosyaları farklı projeler için aynı domainde toplanacağı için
          * birbirlerini ezmemeleri adına kendi klasörlerinde olmalarını gerektiğini tahmin ederek ilerliyoruz.
          */
-        marketing: `marketing@${domain}/marketing/remoteEntry.js`,
+        marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`,
       },
       /**
        * Projelerimizde benzer pluginler var ise shared ile host projeye ikisini de yükleme diyoruz(aşağıda).

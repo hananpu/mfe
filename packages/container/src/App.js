@@ -5,7 +5,7 @@ import MarketingApp from "./components/MarketingApp";
 export default () => {
     return (
         <>
-        <h1>Container Host Project</h1>
+        <h1>This is host Project</h1>
         <MarketingApp />
         </>
     )

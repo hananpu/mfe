@@ -4,20 +4,37 @@
  */
 import { mount } from "marketing/MarketingApp";
 import React, { useRef, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const MarketingApp = () => {
   const ref = useRef(null);
+  const history = useHistory();
 
   useEffect(() => {
     /**
-     * Host projede Remote projelerinin wrapperlarının id sini remote projedeki module federation name ile aynı yapmamalıyız.
-     * Burada ilginç bir bug mevcut.
-     * Host proje windowa bu adla bir obje oluşturur. Örneğin consola marketing yazarak bunu görebiliriz.
-     * Veya network ten RemoteEntry.js dosyasını aldığımızda bu adın bir var ile değişkene atandığını görebiliriz.
-     * Bunu yaparsak wrapper id elementimiz bu objenin yerini alır.
+     * REMOTE'TAN HOST'A ROUTING PASLAMA
+     * Remote proje routing'inde bir değişiklik olduğunda bu değişikliği host projeye bildirmemiz gerekiyor.
+     * onNavigate callback fonksiyonu ile Remote proje location.pathname bilgisini alıp Host projeye useHistory den pushluyoruz.
      */
-    mount(ref.current);
-  });
+    const { onParentNavigate } = mount(ref.current, {
+      onNavigate: ({ pathname: nextPathname }) => {
+        const { pathname } = history.location;
+        /**
+         * Infinite loop olmaması için current pathname ile next pathname karşılaştırıyoruz.
+         */
+        if (pathname !== nextPathname) {
+          console.log(
+            "Log from Container/MarketingApp, navigated from marketing"
+          );
+          history.push(nextPathname);
+        }
+      },
+    });
+    /**
+     * listen methodu onParentNavigate callback fonksiyonuna location parametresi paslıyor.
+     */
+    history.listen(onParentNavigate);
+  }, []);
 
   return <div ref={ref}></div>;
 };

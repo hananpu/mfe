@@ -1,29 +1,58 @@
 console.log("MARKETING REMOTE PROJECT");
 import React from "react";
 import ReactDOM from "react-dom";
+import { createBrowserHistory, createMemoryHistory } from "history";
 
 import App from "./App";
 
 /**
  * Sunduğumuz içeriği remote projelerimizde kullanmak için bu dosyaların içinde bulunan index.html dosyasına ekleyeceğiz.
- * Remote projelerimizde kullandığımız html dosyası yanlızca local ortamda geçerlidir.
+ * Remote projelerimizde kullandığımız html dosyası yanlızca Isolation ortamda geçerlidir.
  * Dolayısı ile Host projemizi geliştiren ekip Remote projedeki htmli id veya classı bilemeyebilir veya kullanmayı tercih etmek istemeyebilirir.
  * Bu sebeple js kaynağımızı html elementi dinamik olarak seçilebilcek şekilde sunmalıyız.
  */
-const mount = (el) => {
-  ReactDOM.render(<App />, el);
+const mount = (el, { defaultHistory, onNavigate }) => {
+  /**
+   * App.js e Isolation için BrowserHistory Host ortam için MemoryHistory gönderiyoruz.
+   */
+  const history = defaultHistory || createMemoryHistory();
+
+  /**
+   * Isolation'da OnNavigate kullanılmadığı için kontrol ediyoruz.
+   * listen methodu onNavigate callback fonksiyonuna location parametresi paslıyor.
+   */
+  if (onNavigate) {
+    history.listen(onNavigate);
+  }
+
+  ReactDOM.render(<App history={history} />, el);
+
+  return {
+    /**
+     * HOST'TAN REMOTE'A ROUTING PASLAMA
+     * Host proje routing'inde bir değişiklik olduğunda bu değişikliği Remote projeye bildirmemiz gerekiyor.
+     * onParentNavigate callback fonksiyonu ile Host proje location.pathname bilgisini alıp Remote projeye createMemoryHistory den pushluyoruz.
+     */
+    onParentNavigate({ pathname: nextPathname }) {
+      const { pathname } = history.location;
+      if (pathname !== nextPathname) {
+        console.log("Log from Marketing, navigated from Container");
+        history.push(nextPathname);
+      }
+    },
+  };
 };
 
 /**
- * Local ortam için
- * Dosyayı local ortamda ve development modunda kullanıyoruz.
+ * Isolation ortam için
+ * Dosyayı isolation ortamda ve development modunda kullanıyoruz.
  * Html dosyamızda kesinlikle bildiğimiz ve host ortamında bulunmayan bir wrapper mevcut.
  */
 if (process.env.NODE_ENV === "development") {
   const devRoot = document.querySelector("#_marketing-dev-root");
 
   if (devRoot) {
-    mount(devRoot);
+    mount(devRoot, { defaultHistory: createBrowserHistory() });
   }
 }
 

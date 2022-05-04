@@ -1,0 +1,21 @@
+{
+  "name": "mfe-monorepo",
+  "version": "1.0.0",
+  "config": {},
+  "description": "",
+  "main": "",
+  "scripts": {
+    "container:dev": "yarn workspace container run start",
+    "container:build": "yarn workspace container run build",
+    "marketing:dev": "yarn workspace marketing run start",
+    "marketing:build": "yarn workspace marketing run build"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": "git@github.com:hananpu/mfe.git",
+  "author": "Hananpu",
+  "license": "UNLICENSED",
+  "homepage": "",
+  "private": true
+}

@@ -36,7 +36,10 @@ const MarketingApp = () => {
     history.listen(onParentNavigate);
   }, []);
 
-  return <div ref={ref}></div>;
+  /**
+   * Spesifik bir divimiz olmadığından, yarattığımız dive useRef ile referans alıp mount fonksiyonuna gönderiyoruz.
+   */
+  return <div data-project="marketing" ref={ref}></div>;
 };
 
 export default MarketingApp;

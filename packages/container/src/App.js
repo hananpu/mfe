@@ -19,7 +19,6 @@ export default () => {
     <BrowserRouter>
       <StylesProvider generateClassName={generateClassName}>
         <Header />
-        <h1>TEST1</h1>
         <MarketingApp />
       </StylesProvider>
     </BrowserRouter>

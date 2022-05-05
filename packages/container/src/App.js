@@ -18,8 +18,8 @@ export default () => {
   return (
     <BrowserRouter>
       <StylesProvider generateClassName={generateClassName}>
-        <h1>TEST1</h1>
         <Header />
+        <h1>TEST1</h1>
         <MarketingApp />
       </StylesProvider>
     </BrowserRouter>

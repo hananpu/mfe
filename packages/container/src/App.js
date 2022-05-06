@@ -4,6 +4,7 @@ import {
   StylesProvider,
   createGenerateClassName,
 } from "@material-ui/core/styles";
+import { CssBaseline } from '@material-ui/core';
 import Progress from "./components/Progress";
 import Header from "./components/Header";
 const MarketingLazy = lazy(() => import("./components/MarketingApp"));
@@ -16,20 +17,23 @@ export default () => {
    * şeklinde className üreteceğinden createGenerateClassName methodu ile classların prefixini ayarlıyoruz.
    */
   const generateClassName = createGenerateClassName({
-    productionPrefix: "ca",
+    disableGlobal: true,
+    productionPrefix: "co"
   });
   return (
     <BrowserRouter>
       <StylesProvider generateClassName={generateClassName}>
-        <Header onSignOut={()=> setIsSignedIn(false)} isSignedIn={isSignedIn} />
-        <Suspense fallback={<Progress />}>
-          <Switch>
-            <Route path="/auth">
-              <AuthLazy onSignIn={()=>setIsSignedIn(true)} />
-            </Route>
-            <Route path="/" component={MarketingLazy} />
-          </Switch>
-        </Suspense>
+        <CssBaseline>
+          <Header onSignOut={()=> setIsSignedIn(false)} isSignedIn={isSignedIn} />
+          <Suspense fallback={<Progress />}>
+            <Switch>
+              <Route path="/auth">
+                <AuthLazy onSignIn={()=>setIsSignedIn(true)} />
+              </Route>
+              <Route path="/" component={MarketingLazy} />
+            </Switch>
+          </Suspense>
+        </CssBaseline>
       </StylesProvider>
     </BrowserRouter>
   );

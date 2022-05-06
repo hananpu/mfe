@@ -25,6 +25,7 @@ export default ({ onSignIn, history }) => {
    * şeklinde className üreteceğinden createGenerateClassName methodu ile classların prefixini ayarlıyoruz.
    */
   const generateClassName = createGenerateClassName({
+    disableGlobal: true,
     productionPrefix: "au",
   });
 

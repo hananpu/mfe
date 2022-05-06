@@ -33,6 +33,7 @@ const prodConfig = {
          * birbirlerini ezmemeleri adına kendi klasörlerinde olmalarını gerektiğini tahmin ederek ilerliyoruz.
          */
         marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`,
+        auth: `auth@${domain}/auth/latest/remoteEntry.js`
       },
       /**
        * Projelerimizde benzer pluginler var ise shared ile host projeye ikisini de yükleme diyoruz(aşağıda).

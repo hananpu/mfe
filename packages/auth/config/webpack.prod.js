@@ -1,24 +1,20 @@
 const { merge } = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationplugin");
 const commonConfig = require("./webpack.common");
-const packageJson = require("../package.json");
+const packegeJson = require("../package.json");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
-const devConfig = {
-  mode: "development",
+const prodConfig = {
+  mode: "production",
   output: {
-    publicPath: "http://localhost:8081/"
-  },
-  devServer: {
-    port: 8081,
-    historyApiFallback: true,
+    filename: "[name].[contenthash].js",
+    publicPath: "/auth/latest/"
   },
   plugins: [
     new ModuleFederationPlugin({
       /**
        * Host proje webpack.config.js remotes objesi içinde bu dosyayı işaret eden itemın valuesunun @ işareti öncesi kullanılan parçasıdır.
        */
-      name: "marketing",
+      name: "auth",
       /**
        * Host proje webpack.config.js remotes objesi içinde bu dosyayı işaret eden itemın value değeri olarak porttan sonra kullanılan parçasıdır.
        * Kodların nasıl yükleneceğinin talimatlarını içeririr
@@ -29,7 +25,7 @@ const devConfig = {
          * key: Host proje tarafından import edilirken kullanılacak dosya adında alias olarak kullanılacak değerdir.
          * value: Host proje halihazırda bir ön yükleyiciye sahip olduğundan direk index yerine bootstrap file veriyoruz.
          */
-        "./MarketingApp": "./src/bootstrap",
+        "./AuthApp": "./src/bootstrap",
       },
       /**
        * Projelerimizde benzer pluginler var ise shared ile host projeye ikisini de yükleme diyoruz(aşağıda).
@@ -45,12 +41,9 @@ const devConfig = {
        * object i de kabul edecektir
        */
       //shared: ["react", "react-dom"]
-      shared: packageJson.dependencies,
-    }),
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
+      shared: packegeJson.dependencies,
     }),
   ],
 };
 
-module.exports = merge(commonConfig, devConfig);
+module.exports = merge(commonConfig, prodConfig);

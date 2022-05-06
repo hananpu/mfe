@@ -1,13 +1,13 @@
 /**
- * marketing => Host proje webpack.config.js remotes objesinde (marketing için) key değeri.
- * MarketingApp => Remote proje (marketing) webpack.config.js exposes objesinde "./src/bootstrap" için alias olarak kullanılan key değeri.
+ * auth => Host proje webpack.config.js remotes objesinde (auth için) key değeri.
+ * AuthApp => Remote proje (auth) webpack.config.js exposes objesinde "./src/bootstrap" için alias olarak kullanılan key değeri.
  */
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import { mount } from "marketing/MarketingApp";
+import { mount } from "auth/AuthApp";
 
-const MarketingApp = () => {
-  const ref = useRef(null);
+const AuthApp = ({onSignIn}) => {
+  const ref = useRef();
   const history = useHistory();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const MarketingApp = () => {
      * onNavigate callback fonksiyonu ile Remote proje location.pathname bilgisini alıp Host projeye useHistory den pushluyoruz.
      */
     const { onParentNavigate } = mount(ref.current, {
-      /** 
+      /**
        * Host tarafından Remote'a ait ilk yönlendirme yapıldığında (tıklanan link host componentinde mesela navigasyon)
        * veya urle direk remote la ilgili bir path ile geldiğimizde, BrowserHistory ilk anda urlde gördüğü routingi kaydederken
        * Remote Proje MemoryHistory o anda boş duruyor. Tıklama sonrası doluyor fakat o arada sayfa boş görünecek. 
@@ -32,22 +32,25 @@ const MarketingApp = () => {
          */
         if (pathname !== nextPathname) {
           console.log(
-            "Log from Container Project(MarketingApp) , navigated from Marketing Project"
+            "Log from Container Project(AuthApp), navigated from Auth Project"
           );
           history.push(nextPathname);
         }
       },
+      onSignIn: () => {
+        onSignIn();
+      }
     });
     /**
      * listen methodu onParentNavigate callback fonksiyonuna location parametresi paslıyor.
      */
     history.listen(onParentNavigate);
   }, []);
-
+  
   /**
    * Spesifik bir divimiz olmadığından, yarattığımız dive useRef ile referans alıp mount fonksiyonuna gönderiyoruz.
    */
-  return <div data-project="marketing" ref={ref}></div>;
+  return <div data-project="auth" ref={ref}></div>;
 };
 
-export default MarketingApp;
+export default AuthApp;

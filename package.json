@@ -8,7 +8,9 @@
     "container:dev": "yarn workspace container run start",
     "container:build": "yarn workspace container run build",
     "marketing:dev": "yarn workspace marketing run start",
-    "marketing:build": "yarn workspace marketing run build"
+    "marketing:build": "yarn workspace marketing run build",
+    "auth:dev": "yarn workspace auth run start",
+    "auth:build": "yarn workspace auth run build"
   },
   "workspaces": [
     "packages/*"

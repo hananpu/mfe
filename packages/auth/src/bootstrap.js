@@ -1,4 +1,4 @@
-console.log("MARKETING REMOTE PROJECT");
+console.log("AUTH REMOTE PROJECT");
 import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory, createMemoryHistory } from "history";
@@ -11,7 +11,7 @@ import App from "./App";
  * Dolayısı ile Host projemizi geliştiren ekip Remote projedeki htmli id veya classı bilemeyebilir veya kullanmayı tercih etmek istemeyebilirir.
  * Bu sebeple js kaynağımızı html elementi dinamik olarak seçilebilcek şekilde sunmalıyız.
  */
-const mount = (el, { defaultHistory, onNavigate, initialPath }) => {
+const mount = (el, { onSignIn, onNavigate, defaultHistory, initialPath }) => {
   /**
    * App.js e Isolation için BrowserHistory Host ortam için MemoryHistory gönderiyoruz.
    */
@@ -27,7 +27,7 @@ const mount = (el, { defaultHistory, onNavigate, initialPath }) => {
     history.listen(onNavigate);
   }
 
-  ReactDOM.render(<App history={history} />, el);
+  ReactDOM.render(<App onSignIn={onSignIn} history={history} />, el);
 
   return {
     /**
@@ -50,7 +50,7 @@ const mount = (el, { defaultHistory, onNavigate, initialPath }) => {
  * Html dosyamızda kesinlikle bildiğimiz ve host ortamında bulunmayan bir wrapper mevcut.
  */
 if (process.env.NODE_ENV === "development") {
-  const devRoot = document.querySelector("#_marketing-dev-root");
+  const devRoot = document.querySelector("#_auth-dev-root");
 
   if (devRoot) {
     mount(devRoot, { defaultHistory: createBrowserHistory() });

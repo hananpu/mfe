@@ -17,15 +17,18 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'none',
     },
   },
+  logo: {
+    marginRight: "auto",
+  },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   toolbar: {
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
   link: {
-    margin: theme.spacing(1, 1.5),
+    margin: theme.spacing(1, 1.5)
   },
   heroContent: {
     padding: theme.spacing(8, 0, 6),
@@ -75,12 +78,22 @@ export default function Header({ isSignedIn, onSignOut }) {
           <Typography
             variant="h6"
             color="inherit"
+            className={classes.logo}
             noWrap
             component={RouterLink}
             to="/"
           >
             App
           </Typography>
+          {isSignedIn && (
+            <Button
+            color="primary"
+            variant="outlined"
+            className={classes.link}
+            component={RouterLink}
+            to="/dashboard"
+          >Dashboard</Button>
+          )}
           <Button
             color="primary"
             variant="outlined"

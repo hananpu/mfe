@@ -1,38 +1,38 @@
 const { merge } = require("webpack-merge");
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationplugin");
 const commonConfig = require("./webpack.common");
 const packageJson = require("../package.json");
 
 const devConfig = {
   mode: "development",
   output: {
-    publicPath: "http://localhost:8080/"
+    publicPath: "http://localhost:8083/"
   },
   devServer: {
-    port: 8080,
+    port: 8083,
     historyApiFallback: true,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    }
   },
   plugins: [
     new ModuleFederationPlugin({
       /**
-       * genel kullanım. şuan kullanılmıyor.
+       * Host proje webpack.config.js remotes objesi içinde bu dosyayı işaret eden itemın valuesunun @ işareti öncesi kullanılan parçasıdır.
        */
-      name: "container",
+      name: "dashboard",
       /**
-       * bağlı projelerin bulunduğu dizin.
+       * Host proje webpack.config.js remotes objesi içinde bu dosyayı işaret eden itemın value değeri olarak porttan sonra kullanılan parçasıdır.
+       * Kodların nasıl yükleneceğinin talimatlarını içeririr
        */
-      remotes: {
+      filename: "remoteEntry.js",
+      exposes: {
         /**
-         * key      => Host proje tarafından import edilirken kullanılacak dosya adından önce alias olarak kullanılacak değerdir.
-         * yani import "marketing/MarketingApp" pathindeki slash işareti öncesindeki değer.
-         * value    => marketing: remote proje webpack.config.js teki name değerine eşit olacaktır. RemoteEntry.js e networkten
-         *             bakacak olursak tüm dosyayı bu adla global bir değişkene atadığını görürüz. Biz bu adı arıyoruz.
-         *          => http://localhost:8081/: marketing projesinin çalıştığı port değeri.
-         *          => remoteEntry.js : Remote proje webpack.config.js deki filename değeri.
+         * key: Host proje tarafından import edilirken kullanılacak dosya adında alias olarak kullanılacak değerdir.
+         * value: Host proje halihazırda bir ön yükleyiciye sahip olduğundan direk index yerine bootstrap file veriyoruz.
          */
-        marketing: "marketing@http://localhost:8081/remoteEntry.js",
-        auth: "auth@http://localhost:8082/remoteEntry.js",
-        dashboard: "dashboard@http://localhost:8083/remoteEntry.js"
+        "./DashboardApp": "./src/bootstrap",
       },
       /**
        * Projelerimizde benzer pluginler var ise shared ile host projeye ikisini de yükleme diyoruz(aşağıda).
@@ -49,6 +49,9 @@ const devConfig = {
        */
       //shared: ["react", "react-dom"]
       shared: packageJson.dependencies,
+    }),
+    new HtmlWebpackPlugin({
+      template: "./public/index.html",
     }),
   ],
 };

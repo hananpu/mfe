@@ -50,7 +50,7 @@ const AuthApp = ({onSignIn}) => {
   /**
    * Spesifik bir divimiz olmadığından, yarattığımız dive useRef ile referans alıp mount fonksiyonuna gönderiyoruz.
    */
-  return <div data-project="auth" ref={ref}></div>;
+  return <div data-project="auth" data-framework="react" ref={ref}></div>;
 };
 
 export default AuthApp;

@@ -10,7 +10,9 @@
     "marketing:dev": "yarn workspace marketing run start",
     "marketing:build": "yarn workspace marketing run build",
     "auth:dev": "yarn workspace auth run start",
-    "auth:build": "yarn workspace auth run build"
+    "auth:build": "yarn workspace auth run build",
+    "dashboard:dev": "yarn workspace dashboard run start",
+    "dashboard:build": "yarn workspace dashboard run build"
   },
   "workspaces": [
     "packages/*"

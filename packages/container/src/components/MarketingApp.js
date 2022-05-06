@@ -47,7 +47,7 @@ const MarketingApp = () => {
   /**
    * Spesifik bir divimiz olmadığından, yarattığımız dive useRef ile referans alıp mount fonksiyonuna gönderiyoruz.
    */
-  return <div data-project="marketing" ref={ref}></div>;
+  return <div data-project="marketing" data-framework="react" ref={ref}></div>;
 };
 
 export default MarketingApp;
